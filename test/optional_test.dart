@@ -110,5 +110,22 @@ main() {
       expect(new Optional<int>.fromNullable(null).toString(),
           equals('Optional { absent }'));
     });
+
+    test('length when absent should return 0', () {
+      expect(const Optional.absent().length, equals(0));
+    });
+
+    test('length when present should return 1', () {
+      expect(new Optional<int>.of(1).length, equals(1));
+    });
+
+    test('expand should behave as equivalent iterable', () {
+      final optionals = <Optional<int>>[
+        new Optional<int>.of(1),
+        const Optional.absent(),
+        new Optional<int>.of(2)
+      ].expand((i) => i);
+      expect(optionals, orderedEquals([1, 2]));
+    });
   });
 }

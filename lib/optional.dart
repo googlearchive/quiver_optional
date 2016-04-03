@@ -14,12 +14,14 @@
 
 library quiver.optional;
 
+import 'dart:collection';
+
 /// A value that might be absent.
 ///
 /// Use Optional as an alternative to allowing fields, parameters or return
 /// values to be null. It signals that a value is not required and provides
 /// convenience methods for dealing with the absent case.
-class Optional<T> {
+class Optional<T> extends IterableBase<T> {
   final T _value;
 
   /// Constructs an empty Optional.
@@ -89,6 +91,10 @@ class Optional<T> {
         ? new Optional.absent()
         : new Optional.of(transformer(_value));
   }
+
+  @override
+  Iterator<T> get iterator =>
+      isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
 
   /// Delegates to the underlying [value] hashCode.
   int get hashCode => _value.hashCode;
